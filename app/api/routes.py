@@ -1,11 +1,12 @@
 from fastapi import APIRouter
 
+from app.api.models import PlayerRequest, PlayerResponse
 from app.library.player import query_player
-from app.models import PlayerRequest
 
 router = APIRouter()
 
 
-@router.post("/player")
-async def get_player_matches(request: PlayerRequest):
-    return await query_player(request.name)
+@router.post("/player", response_model=PlayerResponse)
+async def get_player_matches(request: PlayerRequest) -> PlayerResponse:
+    result = await query_player(request.name)
+    return PlayerResponse.model_validate(result)
