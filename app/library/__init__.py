@@ -1,3 +1,3 @@
-from app.library.models import Player
+from models import Player
 
 __all__ = ["Player"]

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from app.library import Player
+from app.library.models import Player
 
 
 class PlayerRequest(BaseModel):
