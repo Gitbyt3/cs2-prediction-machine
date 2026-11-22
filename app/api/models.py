@@ -1,9 +1,5 @@
-from typing import List
-
-from pydantic import BaseModel
-
-from app.models import BaseCS2Model
 from app.library.models import Player
+from app.models import BaseCS2Model
 
 
 class PlayerRequest(BaseCS2Model):
@@ -19,4 +15,4 @@ class PlayerResponse(BaseCS2Model):
     including nested country information.
     """
 
-    data: List[Player]
+    data: list[Player]

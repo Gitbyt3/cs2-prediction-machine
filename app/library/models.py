@@ -1,6 +1,4 @@
-from typing import Optional
-
-from pydantic import BaseModel, Field
+from pydantic import Field
 
 from app.models import BaseCS2Model
 
@@ -25,17 +23,17 @@ class Player(BaseCS2Model):
     id: int = Field(description="Unique player identifier")
     slug: str = Field(description="URL-safe player identifier")
     nickname: str = Field(description="Player's display name")
-    first_name: Optional[str] = Field(default=None, description="First name (optional)")
-    last_name: Optional[str] = Field(default=None, description="Last name (optional)")
+    first_name: str | None = Field(default=None, description="First name (optional)")
+    last_name: str | None = Field(default=None, description="Last name (optional)")
     status: int = Field(description="Account status flag")
     image_url: str = Field(description="Player profile image URL")
     rank: int = Field(description="Competitive rank")
-    team_id: Optional[int] = Field(default=None, description="Team ID (if applicable)")
-    country_id: Optional[int] = Field(default=None, description="Country ID")
-    discipline_id: Optional[int] = Field(default=None, description="Discipline ID")
+    team_id: int | None = Field(default=None, description="Team ID (if applicable)")
+    country_id: int | None = Field(default=None, description="Country ID")
+    discipline_id: int | None = Field(default=None, description="Discipline ID")
 
     # Nested country object with full details
-    country: Optional[Country] = Field(
+    country: Country | None = Field(
         default=None,
         description="Full country information (name, code, region), optional",
     )
