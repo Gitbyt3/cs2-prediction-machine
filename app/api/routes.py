@@ -6,18 +6,20 @@ from app.api.models import (
     TransferRequest,
     TransferResponse,
 )
-from app.library.player import player_transfers, query_player
+from app.library.player import CS2Player
 
 router = APIRouter()
 
 
 @router.post("/player", response_model=PlayerResponse)
 async def get_player_matches(request: PlayerRequest) -> PlayerResponse:
-    result = await query_player(request.name)
+    async with CS2Player() as player:
+        result = await player.query_player(request.name)
     return PlayerResponse(data=result)
 
 
 @router.post("/player/transfers", response_model=TransferResponse)
 async def get_player_transfers(request: TransferRequest) -> TransferResponse:
-    result = await player_transfers(request.player_id, request.limit)
+    async with CS2Player() as player:
+        result = await player.player_transfers(request.player_id, request.limit)
     return TransferResponse(data=result)
