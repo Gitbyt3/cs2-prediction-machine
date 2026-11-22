@@ -1,3 +1,3 @@
-from app.library.models import Player
+from app.library.models import Player, Transfer
 
-__all__ = ["Player"]
+__all__ = ["Player", "Transfer"]

@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from app.library.models import Player, Transfer
+from app.library import Player, Transfer
 from app.models import BaseCS2Model
 
 
