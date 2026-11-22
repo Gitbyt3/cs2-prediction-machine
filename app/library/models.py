@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Country(BaseModel):
@@ -11,18 +11,27 @@ class Country(BaseModel):
 
 
 class Player(BaseModel):
-    """Represents a BO3.gg player with associated metadata."""
+    """Represents a BO3.gg player with associated metadata and nested country data.
 
-    priority: int
-    id: int
-    slug: str
-    nickname: str
-    first_name: str | None = None
-    last_name: str | None = None
-    status: int
-    image_url: str
-    rank: int
-    team_id: int | None = None
-    country_id: int | None = None
-    discipline_id: int | None = None
-    country: Country | None = None
+    Fields are populated from the full CS2 API search_players response.
+    """
+
+    # Required fields (always present in API response)
+    priority: int = Field(alias="priority", description="Player search priority")
+    id: int = Field(description="Unique player identifier")
+    slug: str = Field(description="URL-safe player identifier")
+    nickname: str = Field(description="Player's display name")
+    first_name: str | None = Field(default=None, description="First name (optional)")
+    last_name: str | None = Field(default=None, description="Last name (optional)")
+    status: int = Field(description="Account status flag")
+    image_url: str = Field(description="Player profile image URL")
+    rank: int = Field(description="Competitive rank")
+    team_id: int | None = Field(default=None, description="Team ID (if applicable)")
+    country_id: int | None = Field(default=None, description="Country ID")
+    discipline_id: int | None = Field(default=None, description="Discipline ID")
+
+    # Nested country object with full details
+    country: Country | None = Field(
+        default=None,
+        description="Full country information (name, code, region), optional",
+    )

@@ -9,4 +9,4 @@ router = APIRouter()
 @router.post("/player", response_model=PlayerResponse)
 async def get_player_matches(request: PlayerRequest) -> PlayerResponse:
     result = await query_player(request.name)
-    return PlayerResponse.model_validate(result)
+    return PlayerResponse(data=result)
