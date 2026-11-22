@@ -14,6 +14,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "taskipy",
+    "ruff>=0.9",
 ]
 
 [build-system]
