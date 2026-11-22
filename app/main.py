@@ -5,6 +5,6 @@ app = FastAPI()
 
 app.include_router(router)
 
-@app.get("/")
+@app.get("/healthz")
 def read_root():
-    return {"message": "Hello World"}
+    return {"message": "Server working as expected."}
