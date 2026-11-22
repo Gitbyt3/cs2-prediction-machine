@@ -1,7 +1,7 @@
 from cs2api import CS2
 
 from app.library.exceptions import PlayerAPIError
-from app.library.models import Player
+from app.library.models import Player, Transfer
 
 
 async def query_player(name: str) -> list[Player]:
@@ -29,6 +29,29 @@ async def query_player(name: str) -> list[Player]:
 
     except Exception as e:
         raise PlayerAPIError(f"Failed to query player '{name}': {e}") from e
+
+    finally:
+        await client.close()
+
+
+async def player_transfers(player_id: int, limit: int = 10) -> list[Transfer]:
+    client = CS2()
+    try:
+        transfer_data = await client.get_player_transfers(player_id, limit)
+
+        # Validate and extract transfers from results list
+        if "results" not in transfer_data:
+            raise PlayerAPIError(f"No results found for player_id={player_id}")
+
+        transfer_list = transfer_data["results"]
+
+        # Convert raw dicts to validated Transfer models
+        return [Transfer.model_validate(transfer) for transfer in transfer_list]
+
+    except Exception as e:
+        raise PlayerAPIError(
+            f"Failed to query transfers for player {player_id}: {e}"
+        ) from e
 
     finally:
         await client.close()

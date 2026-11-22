@@ -1,7 +1,12 @@
 from fastapi import APIRouter
 
-from app.api.models import PlayerRequest, PlayerResponse
-from app.library.player import query_player
+from app.api.models import (
+    PlayerRequest,
+    PlayerResponse,
+    TransferRequest,
+    TransferResponse,
+)
+from app.library.player import player_transfers, query_player
 
 router = APIRouter()
 
@@ -10,3 +15,9 @@ router = APIRouter()
 async def get_player_matches(request: PlayerRequest) -> PlayerResponse:
     result = await query_player(request.name)
     return PlayerResponse(data=result)
+
+
+@router.post("/player/transfers", response_model=TransferResponse)
+async def get_player_transfers(request: TransferRequest) -> TransferResponse:
+    result = await player_transfers(request.player_id, request.limit)
+    return TransferResponse(data=result)
