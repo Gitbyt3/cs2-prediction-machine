@@ -1,7 +1,11 @@
 from fastapi import APIRouter
 
+from app.library.player import query_player
+from app.models import PlayerRequest
+
 router = APIRouter()
 
-@router.get("/items")
-def get_items():
-    return {"items": ["item1", "item2"]}
+
+@router.post("/player")
+async def get_player_matches(request: PlayerRequest):
+    return await query_player(request.name)
